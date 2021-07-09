@@ -1,21 +1,33 @@
-import sqlite3
+import psycopg2
 
-conn = sqlite3.connect('tweets.db')
+DB_HOST = 'localhost'
+DB_NAME = 'postgres'
+DB_USER = 'postgres'
+DB_PASS = ''
+
+conn = psycopg2.connect(dbname = DB_NAME, user = DB_USER, password = DB_PASS, host = DB_HOST, port = 5432)
+print("Database sucessfully connected")
 c = conn.cursor()
 
 def createDb():
     try:
         c.execute("""CREATE TABLE tweets (
-                    Date text,
-                    Username text,
-                    Tweet text,
-                    Sentiment text,
-                    Location text)""")
+                    Date TEXT,
+                    Username TEXT,
+                    Tweet TEXT,
+                    Sentiment TEXT,
+                    Location TEXT)""")
+        print("Database table sucessfully created")
     except:
         pass
 
-def insertDb(date, user, tweet, location, sentiment):
-    c.execute("INSERT INTO tweets VALUES (?, ?, ?, ?, ?)", (date, user, tweet, location, sentiment))
+def insertDb(d, u, t, l, s):
+    postgres_insert_query = """ INSERT INTO tweets (Date, Username, Tweet, Sentiment, Location) VALUES(%s,%s,%s,%s,%s)"""
+    record_to_insert = (d,u,t,l,s)
+    try:
+        c.execute(postgres_insert_query, record_to_insert)
+    except:
+        conn.rollback()
 
 def displayDb():
     c.execute("SELECT * FROM tweets")
