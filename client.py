@@ -21,14 +21,15 @@ class client:
         self.data = data
 
     def searchTweets(self):
-        #Store data in a hashtable {User:Tweet(s)}
         parsedTweets = api.search(q=self.query + '-filter:retweets', count=self.count)
         return(parsedTweets)
         
     def dataHandler(self):
+        #Array of user objects to be returned
         users = []
         tweets = self.searchTweets()
         for tweet in tweets:
+            #Convert tweet data into a user object
             userObj = user('@'+tweet.user.screen_name, tweet.text, tweet.user.location, tweet.created_at)
             users.append(userObj)
         return users

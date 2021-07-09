@@ -18,9 +18,9 @@ def execute():
 
         # Insert data into database
         for user in users:
-            insertDb(user.name, user.tweet, user.getSentiment(), user.location, user.date)
+            insertDb(user.date, user.name, user.tweet, user.getSentiment(), user.location)
 
-        # Delete entry
+        # Delete user text box inputs
         num.delete(0,END)
         query.delete(0,END)
 
