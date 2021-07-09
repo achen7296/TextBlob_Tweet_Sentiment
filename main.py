@@ -1,14 +1,12 @@
 from tkinter import *
-from functions import *
 from initdb import *
 from client import client
 
 root = Tk()
+#Checks if database is created
+createDb()
 
 def execute():
-    #Checks if database is created
-    createDb()
-
     # Check if integer was entered
     try:
         int(num.get())
@@ -16,16 +14,11 @@ def execute():
 
         # Parse num of tweets based on query into class
         tweets = client(query.get(), num.get())
-        tweets.searchTweets()
+        users = tweets.dataHandler()
 
         # Insert data into database
-        for user, tweet in tweets.data.items():
-            sentiment = evalSentiment(tweet)
-            if type(sentiment) != list:
-                insertDb(user, tweet, sentiment)
-            else:
-                for i in range(len(tweet)):
-                    insertDb(user,tweet[i],sentiment[i])
+        for user in users:
+            insertDb(user.name, user.tweet, user.getSentiment(), user.location, user.date)
 
         # Delete entry
         num.delete(0,END)

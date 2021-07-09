@@ -1,4 +1,5 @@
 import tweepy
+from user import user
 from pprint import pprint
 
 consumer_key = 'eBKSNsuffFGsACqyysXPWKxRW'
@@ -22,15 +23,12 @@ class client:
     def searchTweets(self):
         #Store data in a hashtable {User:Tweet(s)}
         parsedTweets = api.search(q=self.query + '-filter:retweets', count=self.count)
+        return(parsedTweets)
         
-        for tweet in parsedTweets:
-            #Get username
-            user = '@'+tweet.user.screen_name
-
-            if tweet.text not in self.data.values():
-                #If we find users who have more than one tweet append the new tweet to a list
-                if user in self.data.keys():
-                    self.data[user] = list(self.data[user])
-                    self.data[user].append(tweet.text)
-                else:
-                    self.data[user] = tweet.text
+    def dataHandler(self):
+        users = []
+        tweets = self.searchTweets()
+        for tweet in tweets:
+            userObj = user('@'+tweet.user.screen_name, tweet.text, tweet.user.location, tweet.created_at)
+            users.append(userObj)
+        return users

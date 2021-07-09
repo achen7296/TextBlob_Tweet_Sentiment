@@ -6,14 +6,16 @@ c = conn.cursor()
 def createDb():
     try:
         c.execute("""CREATE TABLE tweets (
-                   Username text,
-                   Tweet text,
-                   Sentiment text)""")
+                    Username text,
+                    Tweet text,
+                    Sentiment text,
+                    Location text,
+                    Date text)""")
     except:
-        print("Database already initialized")
+        pass
 
-def insertDb(user, tweet, sentiment):
-    c.execute("INSERT INTO tweets VALUES (?, ?, ?)", (user, tweet, sentiment))
+def insertDb(user, tweet, sentiment, location, date):
+    c.execute("INSERT INTO tweets VALUES (?, ?, ?, ?, ?)", (user, tweet, sentiment, location, date))
 
 def displayDb():
     c.execute("SELECT * FROM tweets")
