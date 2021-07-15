@@ -1,7 +1,7 @@
 <!DOCTYPE HTML>
 <html>
     <head>
-        <link rel="stylesheet" href="style.css">
+        <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
         <meta charset = "utf-8">
         <meta name="viewport" content="width=device-width", "initial-scale=1">
         <title>Home Page</title>
@@ -22,8 +22,11 @@
             <div class="column2">
                 <div class="title">Twitter Sentiment Analysis</div>     
                 <div class="center">
-                    <div><input type="text" placeholder="Enter query.."> </input></div>
-                    <div><button class="button">Search</button></div>
+                    <form method="post">
+                        <div><input type="text" id="query" name="q" placeholder="Enter query.."> </input></div>
+                        <div><input type="text" id="number" name="n" placeholder="Enter a number.."> </input></div>
+                        <div><button class="button"> <a href="/submit_button/"> Search </a></button></div>
+                    </form>
                 </div>
             </div>
             <div class="column3">
