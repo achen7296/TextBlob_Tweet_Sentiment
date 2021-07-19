@@ -1,6 +1,6 @@
 from initdb import *
 from client import client
-from flask import Flask, request, render_template
+from flask import Flask, request, render_template, redirect
 
 app = Flask(__name__, template_folder="template")
 
@@ -8,10 +8,19 @@ app = Flask(__name__, template_folder="template")
 def index():
     #Checks if database is created
     createDb()
+    print("Sucessfuly redirected to homepage")
     return render_template("index.html")
 
-@app.route('/submit_button/',methods =["GET", "POST"])
-def execute():
+@app.route('/database')
+def database():
+    return render_template("database.html")
+
+@app.route('/visualization')
+def visualization():
+    return render_template("visualization.html")
+
+@app.route('/submit', methods =["GET", "POST"])
+def submit_post():
     # Check if integer was entered
     if  request.method == 'POST':
         print("Post request recieved")
