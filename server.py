@@ -8,12 +8,12 @@ app = Flask(__name__, template_folder="template")
 def index():
     #Checks if database is created
     createDb()
-    print("Sucessfuly redirected to homepage")
     return render_template("index.html")
 
 @app.route('/database')
 def database():
-    return render_template("database.html")
+    tweets = displayDB()
+    return render_template("database.html", tweets=tweets)
 
 @app.route('/visualization')
 def visualization():

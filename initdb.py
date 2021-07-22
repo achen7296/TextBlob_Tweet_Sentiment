@@ -1,4 +1,5 @@
 import psycopg2
+from psycopg2.extras import RealDictCursor
 
 DB_HOST = 'localhost'
 DB_NAME = 'postgres'
@@ -8,6 +9,7 @@ DB_PASS = '5876688abc123'
 conn = psycopg2.connect(dbname = DB_NAME, user = DB_USER, password = DB_PASS, host = DB_HOST, port = 5432)
 print("Database sucessfully connected")
 c = conn.cursor()
+display = conn.cursor(cursor_factory=RealDictCursor)
 
 def createDb():
     try:
@@ -29,10 +31,12 @@ def insertDb(d, u, t, l, s):
     except:
         conn.rollback()
 
-def displayDb():
-    c.execute("SELECT * FROM tweets")
-    print(c.fetchall())
-
+def displayDB():
+    try:
+        display.execute("SELECT * FROM tweets")
+        return display.fetchall()
+    except:
+        conn.rollback()
 
 
 
